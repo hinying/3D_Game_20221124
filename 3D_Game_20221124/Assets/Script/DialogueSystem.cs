@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 
 namespace HSIN
@@ -25,6 +26,8 @@ namespace HSIN
         private GameObject goTriangle;
         #endregion
 
+        private PlayerInput playerInput;           // 玩家輸入元件
+
         #region 事件區域
         private void Awake()
         {
@@ -34,11 +37,14 @@ namespace HSIN
             goTriangle = GameObject.Find("對話完成圖示");
             goTriangle.SetActive(false);
 
+            playerInput = GameObject.Find("PlayerCapsule").GetComponent<PlayerInput>();
+
             StartDialogue(dialogueOpening);
         }
         #endregion
         public void StartDialogue(DialogueData data)
         {
+            playerInput.enabled = false;           // 關閉 玩家輸入元件
             StartCoroutine(FadeGroup());
             StartCoroutine(TypeEffect(data));
         }
@@ -95,6 +101,8 @@ namespace HSIN
             }
 
             StartCoroutine(FadeGroup(false));
+
+            playerInput.enabled = true;            // 開啟 玩家輸入元件
         }
 
     }
